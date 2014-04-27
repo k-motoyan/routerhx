@@ -7,12 +7,16 @@ RouterHxはjavascriptをターゲットにしたpushState対応のルーティ�
 ### for Haxe
 
 haxelibからインストールして下さい
-`haxelib git routerhx https://github.com/k-motoyan/routerhx.git`
+```
+haxelib git routerhx https://github.com/k-motoyan/routerhx.git
+```
 
 ### for javascript
 
 このリポジトリをcloneしてjs/router.min.jsを読み込んで利用して下さい。
-`git clone https://github.com/k-motoyan/routerhx.git`
+```
+git clone https://github.com/k-motoyan/routerhx.git
+```
 
 ## 使い方
 
@@ -58,7 +62,7 @@ var router = new RouterHx(),
   });
   router.add("/greet/<message>", greet, say);
   router.raisePushState("a", "click", "href");
-  router.run("run");
+  router.run("/");
 ```
 
 ## ライセンス
