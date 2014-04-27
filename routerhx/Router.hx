@@ -131,7 +131,7 @@ class Router {
     }
 
     inline function _execObj(url_pattern: EReg, obj: Dynamic, method: String): Void {
-        if ( Reflect.hasField(obj, method) ) {
+        if ( Type.typeof( Reflect.getProperty(obj, method) ) == TFunction ) {
             Reflect.callMethod( obj, Reflect.field(obj, method), _includeParams(url_pattern) );
         }
     }
