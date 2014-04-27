@@ -1,0 +1,3 @@
+-cp src
+-js js\\routerhx.js
+-main Router

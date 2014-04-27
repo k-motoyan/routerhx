@@ -1,0 +1,11 @@
+{
+  "name": "routerhx",
+  "url" : "",
+  "license": "MIT",
+  "tags": ["javascript"],
+  "description": "Routing library for javascript.",
+  "version": "0.1.0",
+  "releasenote": "Initial release",
+  "contributors": ["k-motoyan"],
+  "dependencies": {}
+}
