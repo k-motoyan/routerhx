@@ -1,3 +1,11 @@
 -cp routerhx
 -js js\\routerhx.js
--main Router
+-main routerhx.Router
+-cmd grunt
+
+--next
+
+-cp tests
+-js tests\\Use_router.js
+-main UseRouter
+

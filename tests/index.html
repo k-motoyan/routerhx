@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>RouterHx Test</title>
+  <style type="text/css">
+  html,body {
+    width:100%;
+  }
+  .half-block {
+    float: left;
+    width:50%;
+  }
+  #header, #sub-header, #footer, #sub-footer {
+    clear:both;
+  }
+  </style>
+</head>
+
+<body>
+
+<h1><a href="/">RouterHx Test</a></h1>
+
+<div id="header"></div>
+<div id="sub-header"></div>
+
+<div class="half-block">
+  <ul>
+    <li><a id="index" href="/index">index</a></li>
+    <li><a id="greet0" href="/greet/morning">greet/morning</a></li>
+    <li><a id="greet1" href="/greet/hello">greet/hello</a></li>
+    <li><a id="micro0" href="/micro">micro</a></li>
+    <li><a id="micro1" href="/micro/1">micro1</a></li>
+    <li><a id="micro2" href="/micro/2">micro2</a></li>
+    <li><a id="dynamic" href="/dynamic">dynamic</a></li>
+    <li><a id="notfound" href="/fjk">notfound</a></li>
+    <li><a id="check-global-dispatch" href="/dispathc1">dispathc1</a></li>
+    <li><a id="check-local-dispatch" href="/dispathc2">dispathc2</a></li>
+  </ul>
+</div>
+<div class="half-block">
+  <div id="contents"></div>
+  <div id="event-dispatch-global-before"></div>
+  <div id="event-dispatch-before"></div>
+  <div id="event-dispatch-after"></div>
+  <div id="event-dispatch-global-after"></div>
+</div>
+
+<div id="sub-footer"></div>
+<div id="footer"></div>
+
+<script type="text/javascript" src="use_router.js"></script>
+</body>
+</html>

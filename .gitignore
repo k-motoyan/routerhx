@@ -2,5 +2,7 @@ js/index.html
 js/routerhx.js
 node_modules
 routerhx.hxproj
+tests/reports
+tests/selenium-server-standalone-2.41.0.jar
 
 !.gitkeep
