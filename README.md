@@ -24,23 +24,25 @@ git clone https://github.com/k-motoyan/routerhx.git
 ```hx
 import routerhx.Router;
 
-class Greet {
+class pkg.Greet {
   public function say(message) {
-    trace(message);
+    trace("say " + message);
   }
 }
 
 class Main {
   public function new() {
-    var router = new Router(),
-        greet = new Greet();
-    router.addCb("/", index);
-    router.add("/greet/<message>", greet, "say");
-    router.raisePushState("a", "click", "href");
-    router.run("/");
+    var router = new Router();
+
+    router.addCb("/", _index);
+    router.add("/greet/<message>", "pkg.Greet", "say");
+
+    router.run("/"); // console on "index".
+    router.run("/greet/morning"); // console on "say morning".
+    router.run("/greet/hello"); // console on "say hello".
   }
 
-  inline function index() {
+  inline function _index() {
     trace("index");
   }
 }
@@ -48,21 +50,24 @@ class Main {
 
 ### for javascript
 ```js
-function Greet() {
+var namespace = {};
+
+namespace.Greet = function(message) {
   this.say = function(message) {
-    console.log(message);
+    console.log("say " + message);
   }
 }
 
-var router = new RouterHx(),
-    greet = new Greet();
+var router = new RouterHx();
 
-  router.addCb("/", function() {
-    console.log("index");
-  });
-  router.add("/greet/<message>", greet, say);
-  router.raisePushState("a", "click", "href");
-  router.run("/");
+router.addCb("/", function() {
+  console.log("index");
+});
+router.add("/greet/<message>", "namespace.Greet", say);
+
+router.run("/"); // console on "index".
+router.run("/greet/morning"); // console on "say morning".
+router.run("/greet/hello"); // console on "say hello".
 ```
 
 ## ライセンス

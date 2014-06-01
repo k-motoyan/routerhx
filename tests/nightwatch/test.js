@@ -2,7 +2,7 @@ module.exports = {
   'RouterHx Test': function(client) {
     client
       .url('localhost:2000')
-      .waitForElementVisible('body', 200)
+      .waitForElementVisible('body', 1000)
         .assert.containsText('#header', 'global before')
         .assert.containsText('#contents', 'dynamic')
         .assert.containsText('#footer', 'global after')

@@ -13,8 +13,7 @@ class UseRouter{
         global_before_end = Browser.document.getElementById("event-dispatch-global-before"),
         global_after_end = Browser.document.getElementById("event-dispatch-global-after"),
         before_end = Browser.document.getElementById("event-dispatch-before"),
-        after_end = Browser.document.getElementById("event-dispatch-after"),
-        greet = new Greet();
+        after_end = Browser.document.getElementById("event-dispatch-after");
 
     router.setBefore(function() {
       header.innerHTML = "";
@@ -31,9 +30,9 @@ class UseRouter{
       footer.innerHTML = "global after";
     });
 
-    router.add("/", greet, "index");
-    router.add("/index", greet, "index");
-    router.add("/greet/<message>", greet, "say");
+    router.add("/", "Greet", "index");
+    router.add("/index", "Greet", "index");
+    router.add("/greet/<message>", "Greet", "say");
 
     router.addCb("/micro", function() {
       var contents = Browser.document.getElementById("contents");
@@ -44,7 +43,7 @@ class UseRouter{
       contents.innerHTML = 'micro$number';
     });
 
-    router.add("/dispathc1", greet, "dispatch");
+    router.add("/dispathc1", "Greet", "dispatch");
     router.addCb("/dispathc2", function() {});
 
     router.addCb("/dynamic", function() {
@@ -76,7 +75,6 @@ class UseRouter{
 }
 
 class Greet {
-  public function new() { }
   public function before() {
     var sub_header = Browser.document.getElementById("sub-header");
     sub_header.innerHTML = "local before";

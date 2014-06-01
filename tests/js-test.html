@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>RouterHx Test</title>
+</head>
+
+<body>
+
+<script type="text/javascript" src="../js/routerhx.min.js"></script>
+<script>
+var Foo = function() {
+  console.log('ふー…');
+}
+var namespace = {};
+namespace.Bar = function() {
+  console.log('ばぁっ！！');
+}
+
+var r = new RouterHx();
+r.add('/foo', 'Foo');
+r.add('/bar', 'namespace.Bar');
+r.run('/foo');
+r.run('/bar');
+</script>
+</body>
+</html>

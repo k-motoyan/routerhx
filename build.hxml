@@ -1,11 +1,15 @@
 -cp routerhx
 -js js\\routerhx.js
 -main routerhx.Router
+-D JsStandAlone
+#-xml content\\output.xml
 -cmd grunt
+#-cmd haxedoc content\\output.xml -f routerhx
+#-cmd rm -f content\\output.xml
+#-cmd mv index.html content\\index.html
 
 --next
 
 -cp tests
 -js tests\\Use_router.js
 -main UseRouter
-
