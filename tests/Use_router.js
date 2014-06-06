@@ -374,9 +374,9 @@ routerhx.Router.__name__ = true;
 routerhx.Router.main = function() {
 };
 routerhx.Router.prototype = {
-	add: function(url,class_path,method_name) {
+	add: function(url,class_path,method_name,args) {
 		url = StringTools.replace(url,"/","\\/");
-		this.routes.push({ url_pattern : new EReg("^" + routerhx.Router.ROUTE_REGEX.replace(url,"([^\\/]+)") + "$",""), class_path : class_path, method_name : method_name});
+		this.routes.push({ url_pattern : new EReg("^" + routerhx.Router.ROUTE_REGEX.replace(url,"([^\\/]+)") + "$",""), class_path : class_path, method_name : method_name, args : args});
 	}
 	,addCb: function(url,cb) {
 		url = StringTools.replace(url,"/","\\/");
@@ -409,7 +409,7 @@ routerhx.Router.prototype = {
 					while(_g2 < _g3.length) {
 						var method_name = _g3[_g2];
 						++_g2;
-						this._execObj(route.url_pattern,route.class_path,method_name);
+						this._execObj(route.url_pattern,route.class_path,method_name,route.args);
 					}
 				}
 				if(Type["typeof"](this.after) != ValueType.TNull) {
@@ -473,11 +473,11 @@ routerhx.Router.prototype = {
 		cb.apply(this,this._includeParams(url_pattern));
 		this.window.dispatchEvent(routerhx.RouterEvent.eventMainEnd);
 	}
-	,_execObj: function(url_pattern,class_path,method) {
+	,_execObj: function(url_pattern,class_path,method,args) {
 		var path = this.options.class_path_prefix + class_path;
 		if(!this.route_objects.exists(path)) {
 			var cls = Type.resolveClass(class_path);
-			var value = Type.createInstance(cls,[]);
+			var value = Type.createInstance(cls,args);
 			this.route_objects.set(path,value);
 		}
 		var obj = this.route_objects.get(path);

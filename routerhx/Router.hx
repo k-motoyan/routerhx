@@ -10,7 +10,8 @@ typedef Route = {
   url_pattern: EReg,
   ?class_path: String,
   ?cb: Dynamic,
-  ?method_name: String
+  ?method_name: String,
+  ?args: Array<Dynamic>
 }
 
 typedef Options = {
@@ -45,12 +46,13 @@ class Router {
     _setPopState();
   }
 
-  public function add(url: String, class_path: String, method_name: String): Void {
+  public function add(url: String, class_path: String, method_name: String, ?args: Array<Dynamic>): Void {
     url = StringTools.replace(url, "/", "\\/");
     this.routes.push({
       url_pattern: new EReg("^" + ROUTE_REGEX.replace(url, "([^\\/]+)") + "$", ""),
       class_path: class_path,
-      method_name: method_name
+      method_name: method_name,
+      args: args
     });
   }
 
@@ -87,7 +89,7 @@ class Router {
         // when execute class method.
         } else if (Type.typeof(route.class_path) != TNull) {
           for (method_name in [BEFORE_METHOD_NAME, route.method_name, AFTER_METHOD_NAME]) {
-            _execObj(route.url_pattern, route.class_path, method_name);
+            _execObj(route.url_pattern, route.class_path, method_name, route.args);
           }
         }
 
@@ -153,7 +155,7 @@ class Router {
     window.dispatchEvent(routerhx.RouterEvent.eventMainEnd);
   }
 
-  inline function _execObj(url_pattern: EReg, class_path: String, method: String): Void {
+  inline function _execObj(url_pattern: EReg, class_path: String, method: String, args: Array<Dynamic>): Void {
     var path = options.class_path_prefix + class_path;
     if (!route_objects.exists(path)) {
       #if JsStandAlone
@@ -161,7 +163,7 @@ class Router {
       #else
         var cls = Type.resolveClass(class_path);
       #end
-      route_objects.set(path, Type.createInstance(cls, []));
+      route_objects.set(path, Type.createInstance(cls, args));
     }
 
     var obj = route_objects.get(path);
