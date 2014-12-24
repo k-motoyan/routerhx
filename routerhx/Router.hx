@@ -93,13 +93,14 @@ class Router {
           }
         }
 
+        if (!from_pop_state) if (Type.typeof(notfound_uri) == TNull) _setPushState(uri) else _setPushState(notfound_uri);
+
         // execute instance level after action.
         if (Type.typeof(this.after) != TNull) {
           this.after();
           window.dispatchEvent(RouterEvent.eventGlobalAfterEnd);
         }
 
-        if (!from_pop_state) if (Type.typeof(notfound_uri) == TNull) _setPushState(uri) else _setPushState(notfound_uri);
         return;
       }
     }
