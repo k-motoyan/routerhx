@@ -1,74 +1,81 @@
 # RouterHx
 
-RouterHxはjavascriptをターゲットにしたpushState対応のルーティングライブラリです。
+RouterHx is simply javascript routing library.
 
-## インストール
+# Install
 
-### for Haxe
+From haxelib.
 
-haxelibからインストールして下さい
+※ it works.
+
 ```
-haxelib git routerhx https://github.com/k-motoyan/routerhx.git
-```
-
-### for javascript
-
-このリポジトリをcloneしてjs/router.min.jsを読み込んで利用して下さい。
-```
-git clone https://github.com/k-motoyan/routerhx.git
+haxelib install routerhx
 ```
 
-## 使い方
+From npm.
 
-### for Haxe
+※ it works.
+
+```
+npm install routerhx
+```
+
+# Usage
+
+## Using Haxe
+
 ```hx
-import routerhx.Router;
-
-class pkg.Greet {
-  public function say(message) {
-    trace("say " + message);
-  }
-}
+import routerhx.RouterHx;
 
 class Main {
-  public function new() {
-    var router = new Router();
+    static function main() {
+        var r = new RouterHx;
 
-    router.addCb("/", _index);
-    router.add("/greet/<message>", "pkg.Greet", "say");
+        // Set callback.
+        r.add('/cb', function(params) {
+            trace('callback.');
+        });
 
-    router.run("/"); // console on "index".
-    router.run("/greet/morning"); // console on "say morning".
-    router.run("/greet/hello"); // console on "say hello".
-  }
+        // Set class method.
+        r.add('/hello/:name', 'Greet#say');
+        
+        r.dispatch('/cb');  // callback.
+        r.dispatch('/hello/world'); // Hello world
+    }
+}
 
-  inline function _index() {
-    trace("index");
-  }
+class Greet {
+    public function say(params) {
+        trace('Hello ${params.get("name")}');
+    }
 }
 ```
 
-### for javascript
+## Using javascript
+
 ```js
-var namespace = {};
+var Greet = function() {};
+Greet.prototype = {
+    say: function(params) {
+        console.log('Hello ' + params.name);
+    }
+};
 
-namespace.Greet = function(message) {
-  this.say = function(message) {
-    console.log("say " + message);
-  }
-}
-
-var router = new RouterHx();
-
-router.addCb("/", function() {
-  console.log("index");
-});
-router.add("/greet/<message>", "namespace.Greet", say);
-
-router.run("/"); // console on "index".
-router.run("/greet/morning"); // console on "say morning".
-router.run("/greet/hello"); // console on "say hello".
+exports.Greet = Greet;
 ```
 
-## ライセンス
-MIT
+```js
+var routerhx = require('./path/to/routerhx.js');
+var r = new routerhx.RouterHx();
+
+// Set callback.
+r.add('/cb', function(params) {
+    console.log('callback.');
+});
+
+// Set class method.
+r.add('/hello/:name', 'path.to.greet.Greet#say');
+
+r.dispatch('/cb'); // callback.
+r.dispatch('/hello/world'); // Hello world
+```
