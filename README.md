@@ -6,11 +6,15 @@ RouterHx is simply javascript routing library.
 
 From haxelib.
 
+※ it works.
+
 ```
 haxelib install routerhx
 ```
 
 From npm.
+
+※ it works.
 
 ```
 npm install routerhx
@@ -49,7 +53,7 @@ class Greet {
 
 ## Using javascript
 
-```js:greet.js
+```js
 var Greet = function() {};
 Greet.prototype = {
     say: function(params) {
@@ -70,7 +74,7 @@ r.add('/cb', function(params) {
 });
 
 // Set class method.
-r.add('/hello/:name', 'greet.Greet#say');
+r.add('/hello/:name', 'path.to.greet.Greet#say');
 
 r.dispatch('/cb'); // callback.
 r.dispatch('/hello/world'); // Hello world
