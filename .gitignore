@@ -1,9 +1,6 @@
-js/index.html
+.idea
+*.iml
 js/routerhx.js
 node_modules
-routerhx.hxproj
-tests/nightwatch/reports
-selenium-debug.log
-content
 
-!.gitkeep
+!.keep
