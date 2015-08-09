@@ -1,6 +1,6 @@
 package routerhx.errors;
 
-#if jsStandAlone
+#if JsStandAlone
 class RouterHxError extends js.Error {
     public function new(message:String) {
         super(message);
