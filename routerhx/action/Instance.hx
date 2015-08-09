@@ -1,6 +1,10 @@
 package routerhx.action;
 
-import Reflect;
+import routerhx.errors.NotFoundNameSpaceError;
+import routerhx.errors.UndefinedMethodError;
+import routerhx.errors.UndefinedClassError;
+import routerhx.errors.InvalidActionError;
+import tink.core.Error;
 import Reflect;
 import js.Browser;
 
@@ -29,20 +33,20 @@ class Instance implements Action {
         var cls = getDynamicClassForJs(class_name);
         switch (cls.typeof()) {
             case TFunction:
-            case _: throw 'undefined class: $class_name';
+            case _: throw new UndefinedClassError('Undefined class: $class_name');
         }
         #else
         var cls = class_name.resolveClass();
         switch (cls.typeof()) {
             case TObject:
-            case _: throw 'undefined class: $class_name';
+            case _: throw new UndefinedClassError('Undefined class: $class_name');
         }
         #end
 
         var instance = cls.createInstance([]);
         switch (Reflect.getProperty(instance, method_name).typeof()) {
             case TFunction:
-            case _: throw 'undefined method: ${class_name}::${method_name}';
+            case _: throw new UndefinedMethodError('Undefined method: ${class_name}.${method_name}');
         }
 
         var method_field = Reflect.field(instance, method_name);
@@ -60,7 +64,7 @@ class Instance implements Action {
         var splited: Array<String> = val.split('#');
 
         if (splited.length != 2) {
-            throw 'Error: expect value [class name]#[method name]';
+            throw new InvalidActionError('invalid action value, should give like [class name]#[method name]');
         }
 
         return { class_name: splited[0], method_name: splited[1] };
@@ -71,7 +75,7 @@ class Instance implements Action {
             var cls: Dynamic = Browser.window;
             for (part in class_path.split(".")) {
                 untyped if (cls[part].typeof() == TNull) {
-                    throw 'class $part not found.';
+                    throw new NotFoundNameSpaceError('$part not found.');
                 }
                 untyped cls = cls[part];
             }
