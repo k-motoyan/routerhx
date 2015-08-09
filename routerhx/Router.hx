@@ -1,5 +1,8 @@
 package routerhx;
 
+import Reflect;
+import routerhx.errors.ExistsRouteError;
+import routerhx.errors.ActionTypeError;
 import routerhx.action.Action;
 import routerhx.action.Callback;
 import routerhx.action.Instance;
@@ -23,13 +26,13 @@ class Router {
 
     public function add(path_pattern: String, action: Dynamic): Void {
         if (routes.exists(path_pattern)) {
-            throw 'Already exists path: $path_pattern';
+            throw new ExistsRouteError('Already exists path: $path_pattern');
         }
 
         var _action = switch(action.typeof()) {
             case TFunction: new Callback(action);
             case TClass(String): new Instance(action);
-            case _: throw "Unexpected parameter action.";
+            case _: throw new ActionTypeError("Unexpected parameter type.");
         }
 
         routes.set(path_pattern, { path: new Path(path_pattern), action: _action });

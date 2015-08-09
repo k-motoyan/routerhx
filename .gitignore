@@ -1,6 +1,7 @@
 .idea
 *.iml
 js/routerhx.js
+.haxelib
 node_modules
 
 !.keep
