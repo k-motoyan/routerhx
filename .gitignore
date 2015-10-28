@@ -1,6 +1,7 @@
 .idea
 *.iml
 js/routerhx.js
+js/test_*.js
 .haxelib
 node_modules
 

@@ -1,5 +1,6 @@
+routerhx.Router
 -cp routerhx
 -js js/routerhx.js
 -lib tink_core tink_lang
--main routerhx.Router
 -D JsStandAlone
+-cmd echo 'compile finish!!'

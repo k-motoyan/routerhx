@@ -4,8 +4,6 @@ import routerhx.errors.NotFoundNameSpaceError;
 import routerhx.errors.UndefinedMethodError;
 import routerhx.errors.UndefinedClassError;
 import routerhx.errors.InvalidActionError;
-import tink.core.Error;
-import Reflect;
 import js.Browser;
 
 using StringTools;
@@ -30,20 +28,20 @@ class Instance implements Action {
         var method_name = class_method.method_name;
 
         #if JsStandAlone
-        var cls = getDynamicClassForJs(class_name);
-        switch (cls.typeof()) {
+        var klass = getDynamicClassForJs(class_name);
+        switch (klass.typeof()) {
             case TFunction:
             case _: throw new UndefinedClassError('Undefined class: $class_name');
         }
         #else
-        var cls = class_name.resolveClass();
-        switch (cls.typeof()) {
+        var klass = class_name.resolveClass();
+        switch (klass.typeof()) {
             case TObject:
             case _: throw new UndefinedClassError('Undefined class: $class_name');
         }
         #end
 
-        var instance = cls.createInstance([]);
+        var instance = klass.createInstance([]);
         switch (Reflect.getProperty(instance, method_name).typeof()) {
             case TFunction:
             case _: throw new UndefinedMethodError('Undefined method: ${class_name}.${method_name}');
@@ -71,16 +69,19 @@ class Instance implements Action {
     }
 
     function getDynamicClassForJs(class_path: String): Class<Dynamic> {
-        return if (Reflect.hasField(Browser, 'window')) {
-            var cls: Dynamic = Browser.window;
-            for (part in class_path.split(".")) {
-                untyped if (cls[part].typeof() == TNull) {
+        return
+        if (Reflect.hasField(Browser, 'window')) {
+            // Case web browser.
+            var klass: Dynamic = Browser.window;
+            for (part in class_path.split('.')) {
+                untyped if (klass[part].typeof() == TNull) {
                     throw new NotFoundNameSpaceError('$part not found.');
                 }
-                untyped cls = cls[part];
+                untyped klass = klass[part];
             }
-            cls;
+            klass;
         } else {
+            // Case nodejs.
             var class_parts = class_path.split('.');
             var class_name = class_parts[class_parts.length - 1];
             var path = class_parts.filter(function(part) {

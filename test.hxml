@@ -1,0 +1,21 @@
+-main tests.unit.Runner
+-cp routerhx
+-cp tests/unit
+-lib tink_core tink_lang
+
+--each
+
+-js js/test_haxe.js
+-cmd echo '========================='
+-cmd echo ' Run unit test for haxe.'
+-cmd echo '========================='
+-cmd node js/test_haxe.js
+
+--next
+
+-js js/test_js.js
+-D JsStandAlone
+-cmd echo '==================================='
+-cmd echo ' Run unit test for js stand alone.'
+-cmd echo '==================================='
+-cmd node js/test_js.js
