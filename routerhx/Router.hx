@@ -49,6 +49,4 @@ class Router {
         throw 'No route match: $path';
     }
 
-    static function main() {}
-
 }

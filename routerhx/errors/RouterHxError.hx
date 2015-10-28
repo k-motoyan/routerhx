@@ -3,7 +3,8 @@ package routerhx.errors;
 #if JsStandAlone
 class RouterHxError extends js.Error {
     public function new(message:String) {
-        super(message);
+        super();
+        this.message = message;
     }
 }
 #else
