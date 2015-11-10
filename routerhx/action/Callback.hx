@@ -8,7 +8,7 @@ package routerhx.action;
         this.cb = cb;
     }
 
-    public function exec(params: Map<String, String>): Void {
+    public function exec(params: Map<String, Dynamic>): Void {
         #if JsStandAlone
         cb(untyped params.h);
         #else

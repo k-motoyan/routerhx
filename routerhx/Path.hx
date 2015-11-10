@@ -14,10 +14,10 @@ using StringTools;
         return genPathRegexp(path_pattern).match(path);
     }
 
-    public function includeRouteParams(path: String): Map<String, String> {
+    public function includeRouteParams(path: String): Map<String, Dynamic> {
         var keys = getKeys(path_pattern);
         var r = genPathRegexp(path_pattern);
-        var params: Map<String, String> = new Map();
+        var params: Map<String, Dynamic> = new Map();
 
         if (r.match(path)) {
             for ([i in 1...(keys.length + 1), key in keys]) {

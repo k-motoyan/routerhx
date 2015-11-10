@@ -23,7 +23,7 @@ class Instance implements Action {
         this.class_method = parseToClassMethod(class_method);
     }
 
-    public function exec(params: Map<String, String>): Void {
+    public function exec(params: Map<String, Dynamic>): Void {
         var class_name  = class_method.class_name;
         var method_name = class_method.method_name;
 

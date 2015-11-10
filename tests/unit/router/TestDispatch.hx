@@ -10,25 +10,23 @@ class TestDispatch extends TestCase {
 
     override public function setup() {
         router = new Router();
-        router.add('/cb', function() { throw 'cb dispatched.'; });
-        router.add('/class_method_for_hx',
-                   'tests.unit.router.TestDispatch_MockClass#test');
-        router.add('/class_method_for_js',
-                   'router.mock_classes.TestDispatch_MockClass#test');
     }
 
     public function testDispatchCallback() {
-        var message = '';
-        try {
-            router.dispatch('/cb');
-        } catch(e: String) {
-            message = e;
-        }
+        router.add('/cb', function() {
+            assertTrue(true);
+        });
 
-        assertTrue(~/cb dispatched\./.match(message));
+        router.dispatch('/cb');
     }
 
     public function testDispatchClassMethod() {
+        router.add('/class_method_for_hx',
+                   'tests.unit.router.TestDispatch_MockClass#test');
+
+        router.add('/class_method_for_js',
+                   'router.mock_classes.TestDispatch_MockClass#test');
+
         var message = '';
         try {
             #if JsStandAlone
@@ -52,5 +50,41 @@ class TestDispatch extends TestCase {
         }
 
         assertTrue(~/No route match:/.match(message));
+    }
+
+    public function testDispatchCallbackGivenParams() {
+        router.add('/cb/:param', function(params) {
+            #if JsStandAlone
+            untyped assertEquals(params.param, 'param');
+            untyped assertEquals(params.extend, 'extend');
+            #else
+            assertEquals(params.get('param'), 'param');
+            assertEquals(params.get('extend'), 'extend');
+            #end
+        });
+
+        var extend_param: Map<String, Dynamic> = new Map();
+        extend_param.set('extend', 'extend');
+
+        router.dispatch('/cb/param', extend_param);
+    }
+
+    public function testDispatchClassMethodGivenParams() {
+        router.add('/class_method_for_hx/:param',
+                   'tests.unit.router.TestDispatch_MockClass#test_param');
+
+        router.add('/class_method_for_js/:param',
+                   'router.mock_classes.TestDispatch_MockClass#test_param');
+
+        var extend_param: Map<String, Dynamic> = new Map();
+        extend_param.set('assertion', function(url_param) {
+            assertEquals(url_param, 'param');
+        });
+
+        #if JsStandAlone
+        router.dispatch('/class_method_for_js/param', extend_param);
+        #else
+        router.dispatch('/class_method_for_hx/param', extend_param);
+        #end
     }
 }
