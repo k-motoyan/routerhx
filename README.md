@@ -24,6 +24,8 @@ npm install routerhx
 
 ## Using Haxe
 
+### Basic usage
+
 ```hx
 import routerhx.RouterHx;
 
@@ -51,7 +53,28 @@ class Greet {
 }
 ```
 
+### Given parameter
+
+```hx
+import routerhx.RouterHx;
+
+class Main {
+    static function main() {
+        var r = new RouterHx;
+        
+        r.add('/:foo', function(params) {
+            trace( params.get('foo') );
+            trace( params.get('bar') );
+        });
+        
+        r.dispatch('/foo', [ 'bar' => 'bar' ]); // foo, bar
+    }
+}
+```
+
 ## Using javascript
+
+### Basic usage
 
 ```js
 var Greet = function() {};
@@ -79,3 +102,7 @@ r.add('/hello/:name', 'path.to.greet.Greet#say');
 r.dispatch('/cb'); // callback.
 r.dispatch('/hello/world'); // Hello world
 ```
+
+### Given parameter
+
+※ it works.
