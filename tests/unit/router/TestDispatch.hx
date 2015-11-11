@@ -63,10 +63,7 @@ class TestDispatch extends TestCase {
             #end
         });
 
-        var extend_param: Map<String, Dynamic> = new Map();
-        extend_param.set('extend', 'extend');
-
-        router.dispatch('/cb/param', extend_param);
+        router.dispatch('/cb/param', [ 'extend' => 'extend' ]);
     }
 
     public function testDispatchClassMethodGivenParams() {
