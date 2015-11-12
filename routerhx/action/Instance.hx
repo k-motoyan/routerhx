@@ -82,12 +82,18 @@ class Instance implements Action {
             klass;
         } else {
             // Case nodejs.
+            var klass: Dynamic;
             var class_parts = class_path.split('.');
             var class_name = class_parts[class_parts.length - 1];
             var path = class_parts.filter(function(part) {
                 return if (class_name == part) false else true;
             }).join('/').toLowerCase();
-            untyped __js__("require('./' + {0} + '.js')[{1}]", path, class_name);
+
+            try {
+                klass = untyped __js__("require('./' + {0} + '.js')[{1}]", path, class_name);
+            } catch(e: Dynamic) { /* no process. */ }
+
+            klass;
         }
     }
 
